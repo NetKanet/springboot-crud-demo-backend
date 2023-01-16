@@ -17,20 +17,32 @@ public class StudentService {
     }
 
     public void register(Student studentUser) {
-        Student studentDbId = StudentRepository.dbStudent.getStudentRepository(studentUser.getId());
-        if (studentUser.getId().isEmpty() || studentDbId.getId().equals(studentUser.getId())) {
+        boolean studentDbId = StudentRepository.dbStudent.checkExistIdStudent(studentUser.getId());
+        if (studentUser.getId().isEmpty() || studentDbId) {
             throw new NotFoundException("ID must be null or ID used");
-        } else if (studentUser.getName().isEmpty()) {
+        }
+
+        if (studentUser.getName().isEmpty()) {
             throw new NotFoundException("Name must be null");
-        } else if (studentUser.getSurname().isEmpty()) {
+        }
+
+        if (studentUser.getSurname().isEmpty()) {
             throw new NotFoundException("Sername must be null");
-        } else if (studentUser.getAddress1().isEmpty()) {
+        }
+
+        if (studentUser.getAddress1().isEmpty()) {
             throw new NotFoundException("Address1 must be null");
-        } else if (studentUser.getDistrict().isEmpty()) {
+        }
+
+        if (studentUser.getDistrict().isEmpty()) {
             throw new NotFoundException("District must be null");
-        } else if (studentUser.getProvince().isEmpty()) {
+        }
+
+        if (studentUser.getProvince().isEmpty()) {
             throw new NotFoundException("Province must be null");
-        } else if (studentUser.getPostalcode().isEmpty() || studentUser.getPostalcode().length()!=5) {
+        }
+
+        if (studentUser.getPostalCode().isEmpty() || studentUser.getPostalCode().length()!=5) {
             throw new NotFoundException("Postalcode must be null or must more or less length");
         }
         studentRepository.save(studentUser);
@@ -53,10 +65,14 @@ public class StudentService {
     }
 
     public Student updateStudentUser(Student student) {
-        Student studentDbId = StudentRepository.dbStudent.getStudentRepository(student.getId());
-        if (studentDbId.getId().equals(student.getId())) {
+        boolean studentDbId = StudentRepository.dbStudent.checkExistIdStudent(student.getId());
+        if (!studentDbId) {
             Student findStudentUser = studentRepository.updateStudentUser(student);
-            return findStudentUser != null ? findStudentUser : null;
+            if (findStudentUser != null) {
+                return findStudentUser;
+            } else {
+                throw new NotFoundException("Don't found this ID");
+            }
         } else {
             throw new NotFoundException("Don't change ID");
         }

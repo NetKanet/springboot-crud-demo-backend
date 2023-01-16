@@ -12,20 +12,28 @@ public class StudentRepository {
     private Map<String, Student> dictionary = new HashMap<String, Student>();
 
     public StudentRepository() {
-        dictionary.put("000001", new Student("000001", "John", "Wick", "999 Build 1 Silom Road,","Silom,","Bangkok,","99999"));
-        dictionary.put("000002", new Student("000002", "Andy", "Handsome", "999 Build 1 Silom Road,","Silom,","Bangkok,","99999"));
+
+        Student student1 = new Student();
+        student1.setId("000001");
+        student1.setName("John");
+        student1.setSurname("Wick");
+        student1.setAddress1("999 Build 1 Silom Road,");
+        student1.setDistrict("Silom,");
+        student1.setProvince("Bangkok,");
+        student1.setPostalCode("99999");
+        dictionary.put("000001", student1);
     }
 
-    public Student getStudentRepository (String id) {
+    public boolean checkExistIdStudent (String id) {
         if (dictionary.containsKey(id)) {
-            return dictionary.get(id);
+            return true;
         } else {
-            return null;
+            return false;
         }
     }
 
     public Student save (Student student) {
-        dictionary.put(student.getId(), new Student(student.getId(), student.getName(), student.getSurname(), student.getAddress1(),student.getDistrict(),student.getProvince(),student.getPostalcode()));
+        dictionary.put(student.getId(), student);
         return student;
     }
 
@@ -40,7 +48,7 @@ public class StudentRepository {
 
     public Student updateStudentUser(Student student) {
         if (dictionary.containsKey(student.getId())) {
-            dictionary.put(student.getId(), new Student(student.getId(), student.getName(), student.getSurname(), student.getAddress1(),student.getDistrict(),student.getProvince(),student.getPostalcode()));
+            dictionary.put(student.getId(), student);
             return student;
         } else {
             return null;

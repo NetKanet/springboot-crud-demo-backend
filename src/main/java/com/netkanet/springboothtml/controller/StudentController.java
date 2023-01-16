@@ -2,11 +2,13 @@ package com.netkanet.springboothtml.controller;
 
 import com.netkanet.springboothtml.model.Student;
 import com.netkanet.springboothtml.service.StudentService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/v1/student")
 public class StudentController {
@@ -22,8 +24,8 @@ public class StudentController {
         return studentService.findAll();
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerStudent (Student student) {
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<?> registerStudent (@RequestBody Student student) {
         studentService.register(student);
         return ResponseEntity.ok("register success");
     }
