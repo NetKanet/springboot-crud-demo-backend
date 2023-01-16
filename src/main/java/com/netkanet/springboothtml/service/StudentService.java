@@ -17,9 +17,14 @@ public class StudentService {
     }
 
     public void register(Student studentUser) {
-        boolean studentDbId = StudentRepository.dbStudent.checkExistIdStudent(studentUser.getId());
-        if (studentUser.getId().isEmpty() || studentDbId) {
-            throw new NotFoundException("ID must be null or ID used");
+        boolean studentDbId = studentRepository.checkExistIdStudent(studentUser.getId());
+
+        if (studentDbId) {
+            throw new NotFoundException("ID used");
+        }
+
+        if (studentUser.getId().isEmpty()) {
+            throw new NotFoundException("ID must be null");
         }
 
         if (studentUser.getName().isEmpty()) {

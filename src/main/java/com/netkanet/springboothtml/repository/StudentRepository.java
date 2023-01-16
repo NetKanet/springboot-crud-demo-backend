@@ -25,15 +25,19 @@ public class StudentRepository {
     }
 
     public boolean checkExistIdStudent (String id) {
+        System.out.println("dictionary : "+dictionary);
         if (dictionary.containsKey(id)) {
+            System.out.println("T : "+dictionary);
             return true;
         } else {
+            System.out.println("F : "+dictionary);
             return false;
         }
     }
 
     public Student save (Student student) {
         dictionary.put(student.getId(), student);
+        System.out.println("dictionary : "+dictionary);
         return student;
     }
 
